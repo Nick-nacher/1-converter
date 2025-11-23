@@ -7,6 +7,7 @@ func main() {
 	const eur float64 = 0.87
 
 	const convert float64 = rub / eur
+
 	fmt.Println(convert)
 
 }
