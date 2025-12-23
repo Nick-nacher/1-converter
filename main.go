@@ -3,11 +3,25 @@ package main
 import "fmt"
 
 func main() {
-	const rub float64 = 79.02
-	const eur float64 = 0.87
 
-	const convert float64 = rub / eur
+	getUserEnterValue()
 
-	fmt.Println(convert)
+}
 
+func getConvertVal(val1, val2 string, sum float64) {
+
+}
+
+func getUserEnterValue() (string, string, float64) {
+
+	var val1 string
+	var val2 string
+	var sum float64
+	fmt.Println("Введите код валюты 1 (RUB/EUR):")
+	fmt.Scan(&val1)
+	fmt.Println("Введите код валюты 2 (RUB/EUR):")
+	fmt.Scan(&val2)
+	fmt.Println("Введите конвертируемую сумму:")
+	fmt.Scan(&sum)
+	return val1, val2, sum
 }
