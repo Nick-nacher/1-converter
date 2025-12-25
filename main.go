@@ -1,15 +1,55 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func main() {
 
-	getUserEnterValue()
+	res := getConvertVal(getUserEnterValue())
+	fmt.Println(math.Round(res))
 
 }
 
-func getConvertVal(val1, val2 string, sum float64) {
+func getConvertVal(val1, val2 string, sum float64) float64 {
+	const eur float64 = 0.87
+	const usd float64 = 78.44
+	var convert float64
 
+	switch val1 {
+	case "RUB":
+		switch val2 {
+		case "USD":
+			convert = sum / usd
+		case "EUR":
+			convert = sum / usd * eur
+		case "RUB":
+			convert = sum
+		}
+	case "USD":
+		switch val2 {
+		case "USD":
+			convert = sum
+		case "EUR":
+			convert = sum * eur
+		case "RUB":
+			convert = sum * usd
+		}
+	case "EUR":
+		switch val2 {
+		case "USD":
+			convert = sum * eur
+		case "EUR":
+			convert = sum
+		case "RUB":
+			convert = sum * usd * eur
+
+		}
+	default:
+		convert = 0
+	}
+	return convert
 }
 
 func getUserEnterValue() (string, string, float64) {
@@ -102,17 +142,3 @@ func getUserHint(val1, val2 string, currency int) (bool, string) {
 	}
 	return par1, par2
 }
-
-// if val1 != nil  {
-// 	if val1 != "EUR" || val1 !="USD"{
-//     return false
-// }else{ if val2 != nil {
-// 	if val2 != "EUR" || val2 !="USD"{
-
-// }
-
-// }
-// 	return true}
-// 	} else if par == 2{}
-// 	return true
-// }
