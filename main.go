@@ -1,55 +1,72 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math"
 )
 
 func main() {
 
-	res := getConvertVal(getUserEnterValue())
-	fmt.Println(math.Round(res))
+	res, err := getConvertVal(getUserEnterValue())
+	if err == nil {
+		fmt.Println(math.Round(res))
+	} else {
+		fmt.Println(err)
+	}
 
 }
 
-func getConvertVal(val1, val2 string, sum float64) float64 {
+func getConvertVal(val1, val2 string, sum float64) (float64, error) {
 	const eur float64 = 0.87
 	const usd float64 = 78.44
+
 	var convert float64
 
-	switch val1 {
+	listVal := getRateVal()
+	mapVal := listVal[val1]
+	rate := mapVal[val2]
+	if rate <= 0 {
+		return 0, errors.New("тариф для расчета не найден")
+	} else {
+		convert = sum * rate
+		return convert, nil
+	}
+	//convert = sum * rate
+
+	/*switch val1 {
 	case "RUB":
 		switch val2 {
 		case "USD":
-			convert = sum / usd
+			convert = sum / usd // 4
 		case "EUR":
-			convert = sum / usd * eur
+			convert = sum / usd * eur // 5
 		case "RUB":
-			convert = sum
+			convert = sum // 1
 		}
 	case "USD":
 		switch val2 {
 		case "USD":
-			convert = sum
+			convert = sum // 1
 		case "EUR":
-			convert = sum * eur
+			convert = sum * eur // 2
 		case "RUB":
-			convert = sum * usd
+			convert = sum * usd // 3
 		}
 	case "EUR":
 		switch val2 {
 		case "USD":
-			convert = sum * eur
+			convert = sum * eur // 2
 		case "EUR":
-			convert = sum
+			convert = sum // 1
 		case "RUB":
-			convert = sum * usd * eur
+			convert = sum * usd * eur // 6
 
 		}
 	default:
 		convert = 0
-	}
-	return convert
+	}*/
+	//return convert
 }
 
 func getUserEnterValue() (string, string, float64) {
@@ -141,4 +158,27 @@ func getUserHint(val1, val2 string, currency int) (bool, string) {
 
 	}
 	return par1, par2
+}
+
+func getRateVal() map[string]map[string]float64 {
+	listVal := map[string]map[string]float64{}
+
+	rub := map[string]float64{}
+	rub["USD"] = 0.07844
+	rub["EUR"] = 0.09016
+
+	usd := map[string]float64{}
+	usd["RUB"] = 78.44
+	usd["EUR"] = 0.87
+
+	eur := map[string]float64{}
+	eur["RUB"] = 90.16
+	eur["USD"] = 1.15
+
+	listVal["RUB"] = rub
+	listVal["USD"] = usd
+	listVal["EUR"] = eur
+
+	return listVal
+
 }
