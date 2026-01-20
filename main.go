@@ -24,8 +24,8 @@ func getConvertVal(val1, val2 string, sum float64) (float64, error) {
 	var convert float64
 
 	listVal := getRateVal()
-	mapVal := (*listVal)[val1]
-	rate := mapVal[val2]
+	//mapVal := (*listVal)[val1]
+	rate := (*listVal)[val1][val2]
 	if rate <= 0 {
 		return 0, errors.New("тариф для расчета не найден")
 	} else {
