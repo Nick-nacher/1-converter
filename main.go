@@ -24,7 +24,7 @@ func getConvertVal(val1, val2 string, sum float64) (float64, error) {
 	var convert float64
 
 	listVal := getRateVal()
-	mapVal := listVal[val1]
+	mapVal := (*listVal)[val1]
 	rate := mapVal[val2]
 	if rate <= 0 {
 		return 0, errors.New("тариф для расчета не найден")
@@ -160,7 +160,7 @@ func getUserHint(val1, val2 string, currency int) (bool, string) {
 	return par1, par2
 }
 
-func getRateVal() map[string]map[string]float64 {
+func getRateVal() *map[string]map[string]float64 {
 	listVal := map[string]map[string]float64{}
 
 	rub := map[string]float64{}
@@ -179,6 +179,6 @@ func getRateVal() map[string]map[string]float64 {
 	listVal["USD"] = usd
 	listVal["EUR"] = eur
 
-	return listVal
+	return &listVal
 
 }
